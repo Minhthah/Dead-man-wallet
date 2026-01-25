@@ -1,14 +1,20 @@
 // src/constants.ts
 
-// --- CẤU HÌNH HỆ THỐNG ---
+// --- 1. CẤU HÌNH BLOCKCHAIN (Quan trọng) ---
+export const NETWORK = "testnet";
 export const WALRUS_PUBLISHER = "https://publisher.walrus-testnet.walrus.space/v1/store";
 export const STORAGE_KEY_DATA = "sui_demo_data";
-export const NETWORK = "testnet";
 
-// Đường dẫn gọi sang Backend (Indexer)
+// ID Contract của bạn (Đã thêm lại để tránh lỗi)
+export const PACKAGE_ID = "0xd8136ae8189389a269fc93c08455bf08af8baade62124c4257e758ecc9957526";
+export const MODULE_NAME = "inheritance";
+
+// --- 2. CẤU HÌNH BACKEND ---
+// Đang trỏ về Local (Máy tính). Nếu muốn dùng bản trên mạng (Render) thì đổi dòng này.
 export const BACKEND_API = "http://localhost:3000/api"; 
+// export const BACKEND_API = "https://sui-inherit-backend.onrender.com/api"; // Link Render dự phòng
 
-// --- NGÔN NGỮ & TEXT ---
+// --- 3. NGÔN NGỮ & TEXT (Giao diện) ---
 export const TRANSLATIONS = {
   vi: {
     slogan: "Di sản số vĩnh cửu trên Blockchain",
@@ -116,7 +122,7 @@ export const TRANSLATIONS = {
   }
 };
 
-// --- CSS STYLES ---
+// --- 4. CSS STYLES (Ocean Theme) ---
 export const customStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
   body { font-family: 'Outfit', sans-serif; background-color: #0b0c15; color: white; overflow-x: hidden; margin: 0; }
