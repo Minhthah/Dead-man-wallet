@@ -1,0 +1,20 @@
+build/*
+traces/*
+.trace
+.coverage*
+Pub.*.toml
+# Move build artifacts
+target/
+.move/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Private keys (Cực kỳ quan trọng: Không bao giờ đẩy file chứa key lên Git)
+*.key
+.sui/
+node_modules
+
+
+

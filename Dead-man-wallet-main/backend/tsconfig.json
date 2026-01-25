@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* --- Cấu hình Môi trường (Quan trọng) --- */
+    "target": "es2020",               // Chuẩn JavaScript đầu ra (Node hỗ trợ tốt)
+    "module": "commonjs",             // Chuẩn module truyền thống của Node.js (Fix lỗi import)
+    "moduleResolution": "node",       // Cách tìm file kiểu Node
+    "rootDir": "./src",               // Thư mục chứa code nguồn
+    "outDir": "./dist",               // Thư mục code sau khi biên dịch
+    "esModuleInterop": true,          // Cho phép import các thư viện cũ (như Express)
+    "forceConsistentCasingInFileNames": true,
+
+    /* --- Cấu hình Kiểm tra lỗi --- */
+    "strict": true,                   // Bật chế độ kiểm tra chặt chẽ
+    "skipLibCheck": true,             // Bỏ qua kiểm tra file định nghĩa của thư viện (Giảm lỗi rác)
+    
+    /* --- Tắt các option gây xung đột --- */
+    "verbatimModuleSyntax": false,    // TẮT dòng này để fix lỗi "top-level export"
+    "noUncheckedSideEffectImports": false,
+    "resolveJsonModule": true         // Cho phép import file .json
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
