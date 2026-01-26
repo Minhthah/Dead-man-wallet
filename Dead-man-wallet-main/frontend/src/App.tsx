@@ -10,7 +10,7 @@ const WALRUS_PUBLISHER = "https://publisher.walrus-testnet.walrus.space/v1/store
 const NETWORK = "testnet"; 
 const STORAGE_KEY_DATA = "sui_demo_data";
 
-// 🔥 CẤU HÌNH EMAIL THẬT (EMAILJS) - ĐÃ CẬP NHẬT CHÍNH XÁC
+// 🔥 CẤU HÌNH EMAIL THẬT (EMAILJS) - ĐÃ CẬP NHẬT CHÍNH XÁC TỪ ẢNH CỦA BẠN
 const EMAIL_SERVICE_ID = "service_qulrm6a";   
 const EMAIL_TEMPLATE_ID = "template_5ao5far"; 
 const EMAIL_PUBLIC_KEY = "TuHSp-wO0hFMn03fu"; 
@@ -86,8 +86,8 @@ const TRANSLATIONS = {
     setup_success: "✅ Transaction Success! Vault Created.",
     upload_success: "✅ Encrypted & Uploaded!",
     email_label: "EMAIL:",
-    encrypting: "🔒 Encrypting...",
-    uploading: "☁️ Uploading...",
+    encrypting: "🔒 Đang mã hóa...",
+    uploading: "☁️ Đang upload...",
     ping_disabled: "⛔ Transferred",
     btn_claimed: "⛔ ĐÃ RÚT",
     checking_activity: "🔍 Indexer: Đang quét lịch sử On-chain...",
@@ -368,7 +368,7 @@ export default function App() {
         template_id: EMAIL_TEMPLATE_ID,
         user_id: EMAIL_PUBLIC_KEY,
         template_params: {
-            to_email: toEmail,
+            to_email: toEmail, // 🔥 ĐÃ SỬA: Biến này phải khớp với {{to_email}} trong Template
             message: `Chủ ví đã không hoạt động quá thời hạn. Đây là Link truy cập tài sản thừa kế của bạn: ${link}`,
             vault_id: vaultId,
             reply_to: "system@suiinherit.com"
