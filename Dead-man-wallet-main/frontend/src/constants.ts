@@ -1,13 +1,15 @@
 // src/constants.ts
 
-// --- 1. CẤU HÌNH BLOCKCHAIN (Quan trọng) ---
+// --- 1. CẤU HÌNH BLOCKCHAIN ---
 export const NETWORK = "testnet";
 export const WALRUS_PUBLISHER = "https://publisher.walrus-testnet.walrus.space/v1/store";
 export const STORAGE_KEY_DATA = "sui_demo_data";
 
-// ID Contract của bạn (Đã thêm lại để tránh lỗi)
-export const PACKAGE_ID = "0xd8136ae8189389a269fc93c08455bf08af8baade62124c4257e758ecc9957526";
-export const MODULE_NAME = "inheritance";
+// ⚠️ QUAN TRỌNG: Thay thế bằng Package ID bạn nhận được khi publish thành công
+export const PACKAGE_ID = "0x98f792617bdbf022716ef8a3b56f541824595444f9199b4470ccc0075ff824a3";
+
+// ⚠️ QUAN TRỌNG: Tên này phải trùng khớp với tên module trong file Move (sui_inherit.move)
+export const MODULE_NAME = "sui_inherit"; 
 
 // --- 2. CẤU HÌNH BACKEND ---
 // Đang trỏ về Local (Máy tính). Nếu muốn dùng bản trên mạng (Render) thì đổi dòng này.
@@ -125,27 +127,165 @@ export const TRANSLATIONS = {
 // --- 4. CSS STYLES (Ocean Theme) ---
 export const customStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-  body { font-family: 'Outfit', sans-serif; background-color: #0b0c15; color: white; overflow-x: hidden; margin: 0; }
-  .ocean-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: radial-gradient(circle at 50% 100%, #0c4a6e, #020617 60%); }
-  .water-rays { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: transparent; background-image: linear-gradient(transparent 30%, rgba(6, 182, 212, 0.1) 40%, transparent 50%), linear-gradient(90deg, transparent 30%, rgba(56, 189, 248, 0.05) 40%, transparent 50%); background-size: 200% 200%; animation: ripple 15s linear infinite; filter: blur(3px); opacity: 0.7; }
-  @keyframes ripple { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(5deg) scale(1.1); } 100% { transform: rotate(0deg) scale(1); } }
-  .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
-  .glass-card:hover { border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 0 20px rgba(14, 165, 233, 0.15); }
-  .btn-primary { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5); }
-  .btn-primary:disabled { background: #334155; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
-  .input-field { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.08); color: white; transition: all 0.3s; }
-  .input-field:focus { border-color: #0ea5e9; background: rgba(14, 165, 233, 0.05); outline: none; }
-  .animate-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  .menu-drawer { background: #0f172a; border-right: 1px solid #1e293b; }
-  .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-  .toast { min-width: 300px; padding: 16px 24px; border-radius: 16px; background: #1e293b; border: 1px solid #334155; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; color: white; font-weight: 600; animation: slideInRight 0.4s forwards; }
-  .toast.success { border-left: 4px solid #10b981; } .toast.error { border-left: 4px solid #ef4444; } .toast.info { border-left: 4px solid #3b82f6; } .toast.warning { border-left: 4px solid #f59e0b; }
-  .type-option { cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
-  .type-option.active { background: rgba(14, 165, 233, 0.1); border-color: #0ea5e9; }
-  .confetti { position: fixed; top: 0; left: var(--c-left); width: 10px; height: 10px; background: var(--c-bg); animation: fall linear forwards; animation-duration: var(--c-dur); z-index: 9999; }
-  @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  
+  body { 
+    font-family: 'Outfit', sans-serif; 
+    background-color: #0b0c15; 
+    color: white; 
+    overflow-x: hidden; 
+    margin: 0; 
+  }
+
+  .ocean-wrapper { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    z-index: -1; 
+    overflow: hidden; 
+    background: radial-gradient(circle at 50% 100%, #0c4a6e, #020617 60%); 
+  }
+
+  .water-rays { 
+    position: absolute; 
+    top: -50%; 
+    left: -50%; 
+    width: 200%; 
+    height: 200%; 
+    background: transparent; 
+    background-image: linear-gradient(transparent 30%, rgba(6, 182, 212, 0.1) 40%, transparent 50%), 
+                      linear-gradient(90deg, transparent 30%, rgba(56, 189, 248, 0.05) 40%, transparent 50%); 
+    background-size: 200% 200%; 
+    animation: ripple 15s linear infinite; 
+    filter: blur(3px); 
+    opacity: 0.7; 
+  }
+
+  @keyframes ripple { 
+    0% { transform: rotate(0deg) scale(1); } 
+    50% { transform: rotate(5deg) scale(1.1); } 
+    100% { transform: rotate(0deg) scale(1); } 
+  }
+
+  .glass-card { 
+    background: rgba(15, 23, 42, 0.6); 
+    backdrop-filter: blur(24px); 
+    -webkit-backdrop-filter: blur(24px); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); 
+    transition: all 0.3s ease; 
+  }
+
+  .glass-card:hover { 
+    border-color: rgba(56, 189, 248, 0.3); 
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.15); 
+  }
+
+  .btn-primary { 
+    background: linear-gradient(135deg, #0ea5e9, #2563eb); 
+    color: white; 
+    font-weight: 600; 
+    transition: all 0.3s; 
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); 
+  }
+
+  .btn-primary:hover { 
+    transform: translateY(-1px); 
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5); 
+  }
+
+  .btn-primary:disabled { 
+    background: #334155; 
+    color: #94a3b8; 
+    box-shadow: none; 
+    cursor: not-allowed; 
+  }
+
+  .input-field { 
+    background: rgba(0, 0, 0, 0.2); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    color: white; 
+    transition: all 0.3s; 
+  }
+
+  .input-field:focus { 
+    border-color: #0ea5e9; 
+    background: rgba(14, 165, 233, 0.05); 
+    outline: none; 
+  }
+
+  .animate-up { 
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  }
+
+  @keyframes fadeInUp { 
+    from { opacity: 0; transform: translateY(30px); } 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+
+  .menu-drawer { 
+    background: #0f172a; 
+    border-right: 1px solid #1e293b; 
+  }
+
+  .toast-container { 
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+  }
+
+  .toast { 
+    min-width: 300px; 
+    padding: 16px 24px; 
+    border-radius: 16px; 
+    background: #1e293b; 
+    border: 1px solid #334155; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    color: white; 
+    font-weight: 600; 
+    animation: slideInRight 0.4s forwards; 
+  }
+
+  .toast.success { border-left: 4px solid #10b981; } 
+  .toast.error { border-left: 4px solid #ef4444; } 
+  .toast.info { border-left: 4px solid #3b82f6; } 
+  .toast.warning { border-left: 4px solid #f59e0b; }
+
+  .type-option { 
+    cursor: pointer; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    transition: all 0.3s; 
+  }
+
+  .type-option.active { 
+    background: rgba(14, 165, 233, 0.1); 
+    border-color: #0ea5e9; 
+  }
+
+  .confetti { 
+    position: fixed; 
+    top: 0; 
+    left: var(--c-left); 
+    width: 10px; 
+    height: 10px; 
+    background: var(--c-bg); 
+    animation: fall linear forwards; 
+    animation-duration: var(--c-dur); 
+    z-index: 9999; 
+  }
+
+  @keyframes fall { 
+    to { transform: translateY(100vh) rotate(720deg); opacity: 0; } 
+  }
+
   .progress-bar-bg { background-color: #1e293b; }
   .progress-bar-fill { background-color: #06b6d4; transition: width 0.3s; width: var(--p-width); }
 `;
